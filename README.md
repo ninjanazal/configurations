@@ -1,2 +1,4 @@
 # configurations
-Generic Configuration files
+## Linux
+- Bashrc
+![BashRc view](linux/bashrc_view.png "BashRc view")
