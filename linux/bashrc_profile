@@ -112,48 +112,34 @@ if ! shopt -oq posix; then
 fi
 
 # #################################################################################3
-# icons 𝘟 ✗ Ӽ 𝘟 𝞦 ✔ ✓ ▲ ➜
+# icons 𝘟 ✗ Ӽ 𝘟 𝞦 ✔ ✓ ▲ ➜ ▼
 
 # - - - - - - - - - - - - - - - - - - - -
-# Git status
-check_status() {
+FMT_RESET="\e[0m"
 
-red="$bold$(tput setaf 1)"
-green=$(tput setaf 2)
+FG_GREEN="\e[38;5;34m"
+FG_RED="\033[38;5;9m"
+FG_DARKGRAY="\033[38;5;239m"
+FG_LIGHTGREEN="\033[38;5;77m"
 
-boshka= git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/' > /dev/null 2>&1
+BG_GREEN="\033[48;5;42m"
+BG_BLUE="\033[48;5;31m"
+BG_GRAY="\033[48;5;240m"
+BG_YELLOW="\033[48;5;178m"
 
 
-# Checks if something to commit or not
-if git rev-parse --git-dir > /dev/null 2>&1; then
-    if ! git status | grep "nothing to commit" > /dev/null 2>&1; then
-      echo "${red} x "
-      return 0
-    elif $boshka; then
-        echo "${green} ✔ "
+function parse_git_bg() {
+    if git rev-parse --git-dir > /dev/null 2>&1; then
+        if [[ $(git status -s 2> /dev/null) ]]; then
+            echo -e "${FG_RED} ✗❌ "
+        else
+            echo -e "${FG_GREEN} ✓✅ "
+        fi  
     fi
-fi
-return 1
 }
 
-# - - - - - - - - - - - - - - - - - - - -
-# Git branch
 check_branch() {
     git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1) /'
 }
 
-
-# - - - - - - - - - - - - - - - - - - - -
-if [[ ${EUID} == 0 ]] ; then
-    PS1='\033[48;5;124m \$ '
-    PS1+='\033[48;5;31m \h '
-    PS1+='\033[48;5;240m \w '
-    PS1+="\033[48;5;178m\[\$(check_status)\]\033[0m\033[48;5;178m\[\$(check_branch)\]\033[0m"
-    PS1+='\n\033[38;5;77m>>\033[0m '
-else
-    PS1='\033[48;5;41m \$ '
-    PS1+='\033[48;5;31m \u @ \h '
-    PS1+='\033[48;5;240m \w '
-    PS1+="\033[48;5;178m\[\$(check_status)\]\033[0m\033[48;5;178m\033[38;5;239m\[\$(check_branch)\]\033[0m"
-    PS1+='\n\033[38;5;77m>>\033[0m '
-fi
+export PS1="${BG_GREEN} \$ ${BG_BLUE} \u @ \h ${BG_GRAY} \w ${BG_YELLOW}\$(parse_git_bg)${FG_DARKGRAY}\$(check_branch)${FMT_RESET}\012${FG_LIGHTGREEN}▶▶${FMT_RESET} "
