@@ -115,17 +115,18 @@ fi
 # icons 𝘟 ✗ Ӽ 𝘟 𝞦 ✔ ✓ ▲ ➜ ▼
 
 # - - - - - - - - - - - - - - - - - - - -
-FMT_RESET="\e[0m"
+FMT_RESET="\[\e[0m\]"
 
-FG_GREEN="\e[38;5;34m"
+FG_GREEN="\033[38;5;34m"
 FG_RED="\033[38;5;9m"
-FG_DARKGRAY="\033[38;5;239m"
-FG_LIGHTGREEN="\033[38;5;77m"
 
-BG_GREEN="\033[48;5;42m"
-BG_BLUE="\033[48;5;31m"
-BG_GRAY="\033[48;5;240m"
-BG_YELLOW="\033[48;5;178m"
+FG_DARKGRAY="\[\033[38;5;239m\]"
+FG_LIGHTGREEN="\[\033[38;5;77m\]"
+
+BG_GREEN="\[\033[48;5;42m\]"
+BG_BLUE="\[\033[48;5;31m\]"
+BG_GRAY="\[\033[48;5;240m\]"
+BG_YELLOW="\[\033[48;5;178m\]"
 
 
 function parse_git_bg() {
